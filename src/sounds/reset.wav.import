@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/reset.wav-405cdefb81693cbe7827628bf6a5bd77.sample"
+
+[deps]
+
+source_file="res://sounds/reset.wav"
+dest_files=[ "res://.import/reset.wav-405cdefb81693cbe7827628bf6a5bd77.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

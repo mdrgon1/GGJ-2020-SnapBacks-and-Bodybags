@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Camera2D
+
+const TARGET_OFFSET = Vector2(22, -10)
+const LERP_VALUE_X = 4
+const LERP_VALUE_Y = 10
+
+var target_position : Vector2
+var facing = 0
+
+onready var player = get_tree().get_nodes_in_group(\"player\")[0]
+
+func reset():
+	player = get_tree().get_nodes_in_group(\"player\")[0]
+
+func _process(delta):
+	
+	if !player:
+		if get_tree().get_nodes_in_group(\"player\"):
+			player = get_tree().get_nodes_in_group(\"player\")[0]
+		else:
+			return
+	
+	target_position.x = (player.position.x + TARGET_OFFSET.x * facing)
+	target_position.y = (player.position.y + TARGET_OFFSET.y)
+
+	if Input.is_action_just_pressed(\"aim_left\"):
+		facing = -1
+	if Input.is_action_just_pressed(\"aim_right\"):
+		facing = 1
+	if Input.is_action_just_released(\"aim_left\") && Input.is_action_pressed(\"aim_right\"):
+		facing = 1
+	if Input.is_action_just_released(\"aim_right\") && Input.is_action_pressed(\"aim_left\"):
+		facing = -1
+	
+	offset.x += (target_position.x - offset.x) * LERP_VALUE_X * delta
+	offset.y += (target_position.y - offset.y) * LERP_VALUE_Y * delta
+	#set_offset(target_position)"
+
+[node name="Camera2D" type="Camera2D"]
+offset = Vector2( 96, 64 )
+current = true
+script = SubResource( 1 )

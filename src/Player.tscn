@@ -1,0 +1,99 @@
+[gd_scene load_steps=38 format=2]
+
+[ext_resource path="res://scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://hook.png" type="Texture" id=2]
+[ext_resource path="res://Player Animations/Idle/frame0000.png" type="Texture" id=3]
+[ext_resource path="res://Player Animations/Jump/frame0000.png" type="Texture" id=4]
+[ext_resource path="res://Player Animations/Jump/frame0001.png" type="Texture" id=5]
+[ext_resource path="res://Player Animations/Jump/frame0002.png" type="Texture" id=6]
+[ext_resource path="res://Player Animations/Jump/frame0003.png" type="Texture" id=7]
+[ext_resource path="res://Player Animations/Jump/frame0004.png" type="Texture" id=8]
+[ext_resource path="res://Player Animations/Jump/frame0005.png" type="Texture" id=9]
+[ext_resource path="res://Player Animations/Jump/frame0006.png" type="Texture" id=10]
+[ext_resource path="res://Player Animations/Jump/frame0007.png" type="Texture" id=11]
+[ext_resource path="res://Player Animations/Jump/frame0008.png" type="Texture" id=12]
+[ext_resource path="res://Player Animations/Jump/frame0009.png" type="Texture" id=13]
+[ext_resource path="res://Player Animations/Jump/frame0010.png" type="Texture" id=14]
+[ext_resource path="res://Player Animations/Jump/frame0011.png" type="Texture" id=15]
+[ext_resource path="res://Player Animations/Jump/frame0012.png" type="Texture" id=16]
+[ext_resource path="res://Player Animations/Jump/frame0013.png" type="Texture" id=17]
+[ext_resource path="res://Player Animations/Jump/frame0014.png" type="Texture" id=18]
+[ext_resource path="res://Player Animations/Jump/frame0015.png" type="Texture" id=19]
+[ext_resource path="res://Player Animations/Jump/frame0016.png" type="Texture" id=20]
+[ext_resource path="res://Player Animations/Jump/frame0017.png" type="Texture" id=21]
+[ext_resource path="res://Player Animations/Jump/frame0018.png" type="Texture" id=22]
+[ext_resource path="res://Player Animations/Jump/frame0019.png" type="Texture" id=23]
+[ext_resource path="res://Player Animations/Jump/frame0020.png" type="Texture" id=24]
+[ext_resource path="res://Player Animations/Jump/frame0021.png" type="Texture" id=25]
+[ext_resource path="res://Player Animations/Jump/frame0022.png" type="Texture" id=26]
+[ext_resource path="res://Player Animations/Jump/frame0023.png" type="Texture" id=27]
+[ext_resource path="res://Player Animations/Run/frame0000.png" type="Texture" id=28]
+[ext_resource path="res://Player Animations/Run/frame0001.png" type="Texture" id=29]
+[ext_resource path="res://Player Animations/Run/frame0002.png" type="Texture" id=30]
+[ext_resource path="res://Player Animations/Run/frame0003.png" type="Texture" id=31]
+[ext_resource path="res://sounds/enemy kill.wav" type="AudioStream" id=32]
+[ext_resource path="res://sounds/player jump.wav" type="AudioStream" id=33]
+[ext_resource path="res://sounds/shoot hook.wav" type="AudioStream" id=34]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 3, 4 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 1, 1 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ) ],
+"loop": false,
+"name": "Jump",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ) ],
+"loop": true,
+"name": "Run",
+"speed": 15.0
+} ]
+
+[node name="Player" type="KinematicBody2D" groups=[
+"player",
+]]
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Reticle" type="Node2D" parent="."]
+position = Vector2( 0, -0.5 )
+
+[node name="Reticle_sprite" type="Sprite" parent="Reticle"]
+position = Vector2( 10, 0.5 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 6, 7 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 3 )
+animation = "Run"
+playing = true
+offset = Vector2( 0, -3 )
+
+[node name="kill_enemy" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 32 )
+
+[node name="jump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 33 )
+
+[node name="shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 34 )
+volume_db = -8.602
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
